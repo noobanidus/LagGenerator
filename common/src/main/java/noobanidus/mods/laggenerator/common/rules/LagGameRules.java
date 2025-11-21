@@ -24,6 +24,6 @@ public class LagGameRules {
     SERVER_PRE_TICK_LAG = AccessorMixinGameRules.LagGenerator$invokeRegister("lag_generator_serverPreTickLag", GameRules.Category.UPDATES, AccessorMixinGameRules$IntegerValue.LagGenerator$invokeCreate(80, 0, Integer.MAX_VALUE, (a, b) -> {}));
     SERVER_POST_TICK_LAG = AccessorMixinGameRules.LagGenerator$invokeRegister("lag_generator_serverPostTickLag", GameRules.Category.UPDATES, AccessorMixinGameRules$IntegerValue.LagGenerator$invokeCreate(80, 0, Integer.MAX_VALUE, (a, b) -> {}));
     ENTITY_TICK_LAG = AccessorMixinGameRules.LagGenerator$invokeRegister("lag_generator_entityTickLag", GameRules.Category.UPDATES, AccessorMixinGameRules$IntegerValue.LagGenerator$invokeCreate(10, 0, Integer.MAX_VALUE, (a, b) -> {}));
-    ENABLE_LAG_GENERATOR = AccessorMixinGameRules.LagGenerator$invokeRegister("enable_lag_generator", GameRules.Category.UPDATES, AccessorMixinGameRules$BooleanValue.LagGenerator$invokeCreate(false, (a, b) -> {}));
+    ENABLE_LAG_GENERATOR = AccessorMixinGameRules.LagGenerator$invokeRegister("lag_generator_enableLag", GameRules.Category.UPDATES, AccessorMixinGameRules$BooleanValue.LagGenerator$invokeCreate(false, (a, b) -> {}));
   }
 }
