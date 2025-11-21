@@ -3,6 +3,10 @@
   "package": "noobanidus.mods.laggenerator.common.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AccessorMixinGameRules",
+    "AccessorMixinGameRules$IntegerValue",
+    "MixinEntity",
+    "MixinMinecraftServer"
   ],
   "client": [
   ],
