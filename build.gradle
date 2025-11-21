@@ -1,0 +1,180 @@
+plugins {
+    id "idea"
+    id "maven-publish"
+    id "me.modmuss50.mod-publish-plugin" version "0.8.4" apply false
+    id "net.neoforged.moddev" version "2.0.80" apply false
+}
+
+def javaVersion = 21
+def ENV = System.getenv()
+version = mod_version
+group = mod_group_id
+
+allprojects {
+    repositories {
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url = "https://www.cursemaven.com"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("curse.maven")
+            }
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url = "https://api.modrinth.com/maven/"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("maven.modrinth")
+            }
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url = "https://nexus.resourcefulbees.com/repository/maven-public/"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("com.telepathicgrunt")
+                includeGroupAndSubgroups("com.teamresourceful.resourcefullib")
+                includeGroupAndSubgroups("com.teamresourceful")
+                includeGroupAndSubgroups("earth.terrarium.athena")
+            }
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url = "https://maven.blamejared.com"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("mezz.jei")
+            }
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "TerraformersMC"
+                    url = "https://maven.terraformersmc.com/"
+                }
+            }
+            filter {
+                includeGroupByRegex("dev\\.emi.*")
+            }
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url = "https://maven.shedaniel.me"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("me.shedaniel.cloth")
+                includeGroupAndSubgroups("me.shedaniel")
+            }
+        }
+    }
+
+    tasks.register('buildAndRelease') {
+        dependsOn(tasks.build, tasks.publish)
+    }
+}
+
+def getExecOutput(commands) {
+    def out = new ByteArrayOutputStream()
+
+    exec {
+        commandLine commands
+        standardOutput out
+    }
+
+    return out.toString().trim();
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'me.modmuss50.mod-publish-plugin'
+    project.group = rootProject.group
+    project.version = rootProject.version
+
+    base {
+        archivesName.set(mod_id)
+    }
+    
+
+    version = "${name}-${rootProject.minecraft_version}-${rootProject.mod_version}"
+
+    repositories {}
+
+    dependencies {
+        compileOnly "org.jetbrains:annotations:${jetbrains_annotations_version}"
+    }
+
+    processResources {
+        filteringCharset "UTF-8"
+
+        def expandProps = [
+                "version"              : project.version,
+                "mod_version"          : project.mod_version,
+                "maven_group_id"       : project.mod_group_id,
+                "mod_id"               : project.mod_id,
+                "mod_display_name"     : project.mod_name,
+                "mod_description"      : project.mod_description,
+                "sources_url"          : project.sources_url,
+                "issues_url"           : project.issues_url,
+                "license_url"          : project.license_url,
+                "homepage_url"         : project.homepage_url,
+
+                "minecraft_version"    : project.minecraft_version,
+                "neoforge_version"     : project.neoforge_version,
+                "fabric_loader_version": project.fabric_loader_version,
+                "java_version"         : "${javaVersion}",
+        ]
+
+        filesMatching(['pack.mcmeta', '*.mod.json', 'META-INF/neoforge.mods.toml']) {
+            expand expandProps
+        }
+        inputs.properties(expandProps)
+    }
+
+    java {
+        if (JavaVersion.current() < JavaVersion.toVersion(javaVersion)) {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(javaVersion)
+            }
+        } else {
+            sourceCompatibility = JavaVersion.toVersion(javaVersion)
+            targetCompatibility = JavaVersion.toVersion(javaVersion)
+        }
+
+        withSourcesJar()
+    }
+
+    javadoc {
+        options.tags = ["reason"]
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.release.set(javaVersion)
+    }
+
+    tasks.publishMods.mustRunAfter tasks.publish
+    tasks.buildAndRelease.dependsOn(tasks.publish).dependsOn(tasks.publishMods)
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

@@ -1,0 +1,27 @@
+modLoader="javafml" 
+loaderVersion="[2,)"
+issueTrackerURL="https://github.com/noobanidus/LagGenerator/issues"
+license="https://github.com/noobanidus/LagGenerator/blob/1.16/LICENSE"
+[[mods]]
+    modId="laggenerator"
+    version="${mod_version}"
+    displayName="Lag Generator"
+    displayURL="https://minecraft.curseforge.com/projects/lag-generator"
+    authors="Noobanidus"
+    description="Generates lag for server testing."
+
+[[mixins]]
+    config="laggenerator-common.mixins.json"
+
+[[mixins]]
+    config="laggenerator-neoforge.mixins.json"
+
+[[dependencies.laggenerator]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21,)"
+
+[[dependencies.laggenerator]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21,)"

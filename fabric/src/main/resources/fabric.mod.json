@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "laggenerator",
+  "version": "${version}",
+  "name": "Lag Generator",
+  "description": "A way of generating server lag for testing purposes.",
+  "authors": [
+    "Noobanidus"
+  ],
+  "accessWidener": "laggenerator.accesswidener",
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/laggenerator",
+    "sources": "https://github.com/noobanidus/laggenerator",
+    "issues": "https://github.com/noobanidus/laggenerator/issues"
+  },
+  "license": "MIT License",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "noobanidus.mods.laggenerator.fabric.LagGenerator"
+    ]
+  },
+  "mixins": [
+    "laggenerator-common.mixins.json",
+    "laggenerator-fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.9 ",
+    "fabric": ">=0.127.0",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21"
+  }
+}
