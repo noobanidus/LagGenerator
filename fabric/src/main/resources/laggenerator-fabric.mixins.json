@@ -4,14 +4,11 @@
   "package": "noobanidus.mods.laggenerator.fabric.mixins",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "MixinPersistentEntitySectionManager",
-    "MixinPlayerAdvancements",
-    "MixinReloadableServerResources"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "client.MixinClientPacketListener"
+
   ]
 }
