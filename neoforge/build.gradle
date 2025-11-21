@@ -33,26 +33,26 @@ publishMods {
     // Limit the changelog to 500 characters
     changelogText = changelogText.take(500)
 
-    if (project.hasProperty('curseforge_id_neoforge')) {
+    if (project.hasProperty('curseforge_id')) {
         curseforge('curseforgeNeoForge') {
             type = ALPHA
 
             projectSlug = "laggenerator"
             displayName = "laggenerator-neoforge-${rootProject.minecraft_version}-${rootProject.mod_version}"
             accessToken = project.findProperty("curse_auth")
-            projectId = project.findProperty('curseforge_id_neoforge')
+            projectId = project.findProperty('curseforge_id')
             announcementTitle = "Lag Generator ${rootProject.minecraft_version}-${rootProject.mod_version} for NeoForge on CurseForge"
             minecraftVersions.add(project.minecraft_version)
             changelog = changelogText
         }
     }
 
-    if (project.hasProperty('modrinth_id_fabric')) {
+    if (project.hasProperty('modrinth_id')) {
         modrinth('modrinthNeoForge') {
             type = ALPHA
             displayName = "laggenerator-neoforge-${rootProject.minecraft_version}-${rootProject.mod_version}"
             accessToken = project.findProperty("modrinth_auth")
-            projectId = project.findProperty('modrinth_id_neoforge')
+            projectId = project.findProperty('modrinth_id')
             announcementTitle = "Lag Generator ${rootProject.minecraft_version}-${rootProject.mod_version} for NeoForge on Modrinth"
             minecraftVersions.add(project.minecraft_version)
             changelog = changelogText
