@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AccessorMixinGameRules",
+    "AccessorMixinGameRules$BooleanValue",
     "AccessorMixinGameRules$IntegerValue",
     "MixinEntity",
     "MixinMinecraftServer"

@@ -18,6 +18,9 @@ public class MixinEntity {
     if (level == null || level.isClientSide() || level.getServer() == null) {
       return;
     }
+    if (!LagGameRules.enabled(level.getServer())) {
+      return;
+    }
     int entityTickLag = LagGameRules.getValue(level.getServer(), LagGameRules.ENTITY_TICK_LAG);
     if (entityTickLag > 0) {
       try {
